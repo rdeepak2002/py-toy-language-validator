@@ -18,6 +18,7 @@ class Parser:
                 if not is_processing_string_token:
                     is_processing_string_token = True
                 else:
+                    # done processing string token
                     is_processing_string_token = False
                     current_token += char
                     tokens.append(current_token)
@@ -28,12 +29,9 @@ class Parser:
                 continue
             # only append whitespace if we are processing a string
             if char in Parser.WHITE_SPACE:
-                if is_processing_string_token:
-                    current_token += char
-                else:
-                    if len(current_token) > 0:
-                        tokens.append(current_token)
-                    current_token = ""
+                if len(current_token) > 0:
+                    tokens.append(current_token)
+                current_token = ""
                 continue
             # end current token if separator is found
             if char in Parser.SEPARATORS:
