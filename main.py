@@ -60,15 +60,12 @@ class Parser:
 
     def _eat_type(self):
         result = ""
-        token = self.tokens[self.i]
+        token = self._eat()
         if token == "int":
-            self.i += 1
             return (token, ("int", ))
         elif token == "string":
-            self.i += 1
             return (token, ("string", ))
         elif token == "box":
-            self.i += 1
             result += token
             result += self._eat("<")
             res, variable_type_tmp = self._eat_type()
@@ -81,17 +78,14 @@ class Parser:
 
     def _eat_expression(self):
         result = ""
-        token = self.tokens[self.i]
+        token = self._eat()
         if token.isdigit():
             # int
-            self.i += 1
             return (token, ("int", ), ("int", ))
         elif len(token) >= 2 and (token[0] == "\"" and token[-1] == "\""):
             # string
-            self.i += 1
             return (token, ("string", ), ("string", ))
         elif token == "box":
-            self.i += 1
             result += token
             # validate first part where type is defined
             result += self._eat("<")
